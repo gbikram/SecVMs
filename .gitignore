@@ -1,3 +1,5 @@
 Kali/.vagrant/
 sample_ansible/.vagrant/
 win10/.vagrant/
+win10/provision.ps1~
+win10/.provision.ps1.un~
