@@ -1,0 +1,17 @@
+---
+- name: Install additional programs
+  apt:
+    pkg:
+      - golang-go
+      - terminator
+      - gobuster
+      - seclists
+      - dnsenum
+      - eyewitness
+      - metagoofil
+      - httrack
+      - sherlock
+      - keepassxc
+    state: latest
+    update_cache: true
+  become: yes

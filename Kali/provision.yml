@@ -80,3 +80,10 @@
         name: newsboat 
         state: present
  
+    - name: Move torrc
+      ansible.builtin.shell: cp /vagrant/torrc /etc/tor/torrc
+      become: true
+
+    - name: Add additional programs
+      ansible.builtin.include_tasks:
+        file: apps.yml
