@@ -1,0 +1,82 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+      become: true
+  
+    - name: Install Spice
+      ansible.builtin.apt:
+        name: spice-vdagent
+        state: present
+      become: true
+  
+    - name: Start Spice
+      systemd:
+        state: started
+        name: spice-vdagent
+        enabled: yes
+  
+    - name: Get keyring file for Brave
+      ansible.builtin.get_url:
+        url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+        dest: "/usr/share/keyrings/brave-browser-archive-keyring.gpg"
+        mode: "0644"
+      become: true
+    
+    - name: Add Brave repository to list of repositories
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/brave-browser-release.list
+        content: |
+          deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main
+        mode: "0644"
+    
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+      become: true
+    
+    - name: Install Brave
+      ansible.builtin.apt:
+        name: brave-browser
+        state: present
+      become: true
+    
+    - name: Add GPG key for VSCodium repo
+      become: true
+      ansible.builtin.shell: "wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg"
+    
+    - name: Add vscodium repo
+      ansible.builtin.shell: "echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' | sudo tee /etc/apt/sources.list.d/vscodium.list"
+    
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+      become: true
+
+    - name: Install vscodium
+      ansible.builtin.apt:
+        name: codium
+        state: present
+      become: true
+
+    - name: Install Tor Browser
+      ansible.builtin.apt:
+        name: torbrowser-launcher
+        state: present
+      become: true
+
+    - name: Install obfs4proxy for torrify torsocks
+      ansible.builtin.apt:
+        name: obfs4proxy
+        state: present
+      become: true
+
+    - name: Install Newsboat 
+      ansible.builtin.apt:
+        name: newsboat 
+        state: present
+ 
