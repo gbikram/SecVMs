@@ -2,6 +2,7 @@
 - name: Install additional programs
   apt:
     pkg:
+      - python3-pip
       - golang-go
       - terminator
       - gobuster
@@ -12,6 +13,19 @@
       - httrack
       - sherlock
       - keepassxc
+      - newsboat
+      - torbrowser-launcher
+      - codium
+      - obfs4proxy
+      - brave-browser
     state: latest
     update_cache: true
   become: yes
+- name: Install pip Packages
+  pip:
+    name:
+      - virtualenv
+      - holehe
+      - ignorant
+      - h8mail
+      - nqntnqnqmb

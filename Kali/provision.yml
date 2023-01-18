@@ -39,12 +39,6 @@
         update_cache: true
       become: true
     
-    - name: Install Brave
-      ansible.builtin.apt:
-        name: brave-browser
-        state: present
-      become: true
-    
     - name: Add GPG key for VSCodium repo
       become: true
       ansible.builtin.shell: "wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg"
@@ -57,33 +51,13 @@
         update_cache: true
       become: true
 
-    - name: Install vscodium
-      ansible.builtin.apt:
-        name: codium
-        state: present
-      become: true
+    - name: Install additional programs
+      ansible.builtin.include_tasks:
+        file: apps.yml
 
-    - name: Install Tor Browser
-      ansible.builtin.apt:
-        name: torbrowser-launcher
-        state: present
-      become: true
-
-    - name: Install obfs4proxy for torrify torsocks
-      ansible.builtin.apt:
-        name: obfs4proxy
-        state: present
-      become: true
-
-    - name: Install Newsboat 
-      ansible.builtin.apt:
-        name: newsboat 
-        state: present
- 
-    - name: Move torrc
+    - name: Copy torrc to guest
       ansible.builtin.shell: cp /vagrant/torrc /etc/tor/torrc
       become: true
 
-    - name: Add additional programs
-      ansible.builtin.include_tasks:
-        file: apps.yml
+    - name: Copy newsboat urls to guest
+      shell: mkdir -p /home/vagrant/.newsboat && cp /vagrant/newsboat/urls /home/vagrant/.newsboat/urls
