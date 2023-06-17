@@ -26,6 +26,7 @@
   pip:
     name:
       - rfeed
+      - protonvpn-cli
       - virtualenv
       - jmespath
       - holehe
@@ -41,7 +42,7 @@
   community.general.flatpak:
     name:
       - com.google.Chrome
-      - com.protonvpn.www
+        #- com.protonvpn.www
     state: present 
 
       #- name: Add pipx to path
