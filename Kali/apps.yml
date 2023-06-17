@@ -33,7 +33,8 @@
       - ghunt
       - h8mail
       - nqntnqnqmb
-        #    extra_args: --break-system-packages
+    extra_args: --break-system-packages
+  become: yes
 
 - name: Add Flathub
   shell: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
