@@ -1,23 +1,26 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 Vagrant.configure("2") do |config|
-  config.vm.box = "kalilinux/rolling"
+  config.vm.define :OSINT_Kali do |osint_kali|
+    osint_kali.vm.box = "kalilinux/rolling"
 
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  config.vm.box_check_update = true 
-  #config.vm.synced_folder "../data", "/vagrant_data"
+    # Disable automatic box update checking. If you disable this, then
+    # boxes will only be checked for updates when the user runs
+    # `vagrant box outdated`. This is not recommended.
+    osint_kali.vm.box_check_update = true 
+    osint_kali.vm.synced_folder "./", "/vagrant", type: "nfs", nfs_udp: false
 
-  config.vm.provider "libvirt" do |vb|
-    vb.cpus = 4
-    vb.memory = 4096
-    vb.memory = "4096"
-    vb.graphics_type = 'spice'
-    vb.video_type = 'qxl'
-  end
-  # config.vm.provision "shell", path: "provision.sh" 
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "provision.yml"
+    osint_kali.vm.provider "libvirt" do |vb|
+      vb.cpus = 4
+      #vb.cputopology :sockets => '1', :cores => '4', :threads => '2'
+      vb.memory = 4096
+      # vb.memory = "4096"
+      vb.graphics_type = 'spice'
+      vb.video_type = 'qxl'
+    end
+    # config.vm.provision "shell", path: "provision.sh" 
+    osint_kali.vm.provision "ansible" do |ansible|
+      ansible.playbook = "provision.yml"
+   end
   end
 end

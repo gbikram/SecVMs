@@ -19,26 +19,6 @@
         name: spice-vdagent
         enabled: yes
   
-    - name: Get keyring file for Brave
-      ansible.builtin.get_url:
-        url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-        dest: "/usr/share/keyrings/brave-browser-archive-keyring.gpg"
-        mode: "0644"
-      become: true
-    
-    - name: Add Brave repository to list of repositories
-      become: true
-      ansible.builtin.copy:
-        dest: /etc/apt/sources.list.d/brave-browser-release.list
-        content: |
-          deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main
-        mode: "0644"
-    
-    - name: Update apt cache
-      ansible.builtin.apt:
-        update_cache: true
-      become: true
-    
     - name: Add GPG key for VSCodium repo
       become: true
       ansible.builtin.shell: "wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg"
@@ -56,7 +36,7 @@
         file: apps.yml
 
     - name: Copy torrc to guest
-      ansible.builtin.shell: cp /vagrant/torrc /etc/tor/torrc
+      ansible.builtin.shell: cp /vagrant/torrc /etc/tor/torrc && cp /vagrant/torsocks.conf /etc/tor/torsocks.conf
       become: true
 
     - name: Copy newsboat urls to guest

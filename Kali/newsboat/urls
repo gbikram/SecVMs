@@ -1,1 +1,5 @@
 https://rss-bridge.org/bridge01/?action=display&bridge=TelegramBridge&username=%40lab_dookhtegan&format=Atom "Lab Dookhtegan" "Telegram"
+exec: ~/.newsboat/scripts/alph.py "AlphV Ransomware Blog"
+AlphV Ransomware Blog"
+https://rss-bridge.org/bridge01/?action=display&bridge=TelegramBridge&username=killnet_reservs&format=Atom "killnet_reservs"
+https://rss-bridge.org/bridge01/?action=display&bridge=TelegramBridge&username=leaked_databases&format=Json "leaked_databases"

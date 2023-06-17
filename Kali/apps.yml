@@ -2,7 +2,6 @@
 - name: Install additional programs
   apt:
     pkg:
-      - python3-pip
       - golang-go
       - terminator
       - gobuster
@@ -17,15 +16,48 @@
       - torbrowser-launcher
       - codium
       - obfs4proxy
-      - brave-browser
+      - flatpak
+        #      - brave-browser
     state: latest
     update_cache: true
   become: yes
-- name: Install pip Packages
+
+- name: Python Packages
   pip:
     name:
+      - rfeed
       - virtualenv
+      - jmespath
       - holehe
-      - ignorant
+      - ghunt
       - h8mail
       - nqntnqnqmb
+        #    extra_args: --break-system-packages
+
+- name: Add Flathub
+  shell: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+- name: Install Packages from Flathub
+  community.general.flatpak:
+    name:
+      - com.google.Chrome
+      - com.protonvpn.www
+    state: present 
+
+      #- name: Add pipx to path
+      #  shell: pipx ensurepath
+      #
+      #- name: Install Ghunt from pipx
+      #  community.general.pipx:
+      #    name: ghunt
+      #    state: present 
+      #
+      #- name: Install holehe from pipx
+      #  community.general.pipx:
+      #    name: holehe
+      #    state: present
+      #
+      #- name: Install h8mail from pipx
+      #  community.general.pipx:
+      #    name: h8mail
+      #    state: present 
