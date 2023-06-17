@@ -19,6 +19,9 @@
         name: spice-vdagent
         enabled: yes
   
+    - name: Fix Resolution
+      ansible.builtin.shell: "xrandr --output Virtual-1 --mode 1600x900"
+
     - name: Add GPG key for VSCodium repo
       become: true
       ansible.builtin.shell: "wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg"
